@@ -1,0 +1,92 @@
+import java.util.*;
+
+public class HotelReservationSystem {
+    static class Room {
+        int roomNo;
+        String category;
+        boolean isBooked;
+
+        Room(int roomNo, String category) {
+            this.roomNo = roomNo;
+            this.category = category;
+            this.isBooked = false;
+        }
+
+        public String toString() {
+            return "Room " + roomNo + " (" + category + ") - " + (isBooked ? "Booked" : "Available");
+        }
+    }
+
+    static List<Room> rooms = new ArrayList<>();
+
+    public static void initializeRooms() {
+        rooms.add(new Room(101, "Standard"));
+        rooms.add(new Room(102, "Deluxe"));
+        rooms.add(new Room(103, "Suite"));
+        rooms.add(new Room(104, "Standard"));
+        rooms.add(new Room(105, "Deluxe"));
+    }
+
+    public static void showRooms() {
+        for (Room r : rooms) {
+            System.out.println(r);
+        }
+    }
+
+    public static void bookRoom(int roomNo) {
+        for (Room r : rooms) {
+            if (r.roomNo == roomNo && !r.isBooked) {
+                r.isBooked = true;
+                System.out.println("Room " + roomNo + " successfully booked!");
+                return;
+            }
+        }
+        System.out.println("Room not available.");
+    }
+
+    public static void cancelRoom(int roomNo) {
+        for (Room r : rooms) {
+            if (r.roomNo == roomNo && r.isBooked) {
+                r.isBooked = false;
+                System.out.println("Booking for room " + roomNo + " cancelled.");
+                return;
+            }
+        }
+        System.out.println("Room is not booked or does not exist.");
+    }
+
+    public static void main(String[] args) {
+        initializeRooms();
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n--- Hotel Reservation System ---");
+            System.out.println("1. Show Rooms");
+            System.out.println("2. Book Room");
+            System.out.println("3. Cancel Booking");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    showRooms();
+                    break;
+                case 2:
+                    System.out.print("Enter room number to book: ");
+                    bookRoom(sc.nextInt());
+                    break;
+                case 3:
+                    System.out.print("Enter room number to cancel: ");
+                    cancelRoom(sc.nextInt());
+                    break;
+                case 4:
+                    System.out.println("Thank you for using the system.");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (choice != 4);
+    }
+}
